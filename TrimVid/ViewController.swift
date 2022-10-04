@@ -11,8 +11,6 @@ import AVFoundation
 
 public final class ViewController: UIViewController {
   
-  // MARK: - Public properties
-  
   // MARK: - Private properties
   
   private var player: AVPlayer?
@@ -21,23 +19,49 @@ public final class ViewController: UIViewController {
   
   // MARK: - Subviews
   
-  private let playButton: UIButton = {
+  private lazy var playButton: UIButton = {
     let button = UIButton()
+    button.setTitle("Play", for: .normal)
+    button.titleLabel?.font = .boldSystemFont(ofSize: 18.0)
+    button.setTitleColor(.systemPurple, for: .normal)
     button.translatesAutoresizingMaskIntoConstraints = false
+    button.addTarget(self, action: #selector(handlePlay), for: .touchUpInside)
     return button
   }()
+  
+  private lazy var exportButton: UIButton = {
+    let button = UIButton()
+    button.titleLabel?.font = .boldSystemFont(ofSize: 18.0)
+    button.setTitle("Export", for: .normal)
+    button.setTitleColor(.systemPurple, for: .normal)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.addTarget(self, action: #selector(handleExport), for: .touchUpInside)
+    return button
+  }()
+  
+  @objc
+  private func handleExport() {
+    // TODO: - 
+  }
+  
+  @objc
+  private func handlePlay() {
+    play()
+  }
   
   private lazy var playerView: UIView = {
     let view = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32.0, height: 600.0))
     view.backgroundColor = .systemBackground
+    view.layer.cornerCurve = .continuous
+    view.layer.cornerRadius = 12.0
+    view.clipsToBounds =  true
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
   
-  private lazy var trimmingView: TrimmingView = {
-    let view = TrimmingView()
+  private lazy var trimmerView: TrimmerView = {
+    let view = TrimmerView()
     view.delegate = self
-    view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
   
@@ -53,6 +77,7 @@ public final class ViewController: UIViewController {
   }
   
   // MARK: - Methods
+  
   private func setupSubviews() {
     view.addSubview(playerView)
     NSLayoutConstraint.activate([
@@ -62,19 +87,33 @@ public final class ViewController: UIViewController {
       playerView.heightAnchor.constraint(equalToConstant: 600.0)
     ])
     
-    view.addSubview(trimmingView)
+    view.addSubview(trimmerView)
     NSLayoutConstraint.activate([
-      trimmingView.topAnchor.constraint(equalTo: playerView.bottomAnchor, constant: 56.0),
-      trimmingView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24.0),
-      trimmingView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24.0),
-      trimmingView.heightAnchor.constraint(equalToConstant: 56.0)
+      trimmerView.topAnchor.constraint(equalTo: playerView.bottomAnchor, constant: 24.0),
+      trimmerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24.0),
+      trimmerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24.0),
+      trimmerView.heightAnchor.constraint(equalToConstant: 56.0)
+    ])
+    
+    view.addSubview(playButton)
+    NSLayoutConstraint.activate([
+      playButton.heightAnchor.constraint(equalToConstant: 56.0),
+      playButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      playButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+    ])
+    
+    view.addSubview(exportButton)
+    NSLayoutConstraint.activate([
+      exportButton.heightAnchor.constraint(equalToConstant: 56.0),
+      exportButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      exportButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0)
     ])
   }
   
   private func loadAsset() {
     guard let path = Bundle.main.url(forResource: "Pexels Videos 1722591", withExtension: "mp4") else { return }
     let asset = AVAsset(url: path)
-    trimmingView.asset = asset
+    trimmerView.asset = asset
     addVideoPlayer(withAsset: asset, inPlayerView: playerView)
   }
   
@@ -94,12 +133,6 @@ public final class ViewController: UIViewController {
     }
     
     playerView.layer.addSublayer(layer)
-    player?.play()
-  }
-  
-  @objc
-  private func handleItemDidFinishPlaying() {
-    
   }
   
   private func stopPlaybackTimeChecker() {
@@ -109,7 +142,17 @@ public final class ViewController: UIViewController {
   
   @objc
   private func handlePlaybackTimeChecker() {
-    // TODO: -  Trimmer view start and end times
+    guard let startTime = trimmerView.startTime, let endTime = trimmerView.endTime, let player = player else {
+        return
+    }
+
+    let playBackTime = player.currentTime()
+    trimmerView.seek(to: playBackTime)
+
+    if playBackTime >= endTime {
+        player.seek(to: startTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+        trimmerView.seek(to: startTime)
+    }
   }
   
   private func startPlaybackTimeChecker() {
@@ -128,22 +171,19 @@ public final class ViewController: UIViewController {
   }
 }
 
-// MARK: - Trimming View Delegate
-extension ViewController: TrimmingViewDelegate {
-  public func handleDidChangePosition(atPlayerTime playerTime: CMTime) async {
-    stopPlaybackTimeChecker()
-    player?.pause()
-    await player?.seek(to: playerTime, toleranceBefore: .zero, toleranceAfter: .zero)
-    if let endTime = await trimmingView.endTime(),
-       let startTime = await trimmingView.startTime() {
-      let duration = (endTime - startTime).seconds
-      print("CHANGED TRIM POSITION - \(duration)")
+// MARK: - Trimmer View Delegate
+extension ViewController: TrimmerViewDelegate {
+    public func positionBarStoppedMoving(_ playerTime: CMTime) {
+        player?.seek(to: playerTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+        player?.play()
+        startPlaybackTimeChecker()
     }
-  }
-  
-  public func handleDidStopMoving(atPlayerTime playerTime: CMTime) {
-    player?.seek(to: playerTime, toleranceBefore: .zero, toleranceAfter: .zero)
-    player?.play()
-    startPlaybackTimeChecker()
-  }
+
+    public func didChangePositionBar(_ playerTime: CMTime) {
+        stopPlaybackTimeChecker()
+        player?.pause()
+        player?.seek(to: playerTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+        let duration = (trimmerView.endTime! - trimmerView.startTime!).seconds
+        print(duration)
+    }
 }
