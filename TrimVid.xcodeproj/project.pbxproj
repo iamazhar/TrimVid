@@ -8,22 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		2E2C3C6728EC3C2C0066348F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2C3C6628EC3C2C0066348F /* AppDelegate.swift */; };
-		2E2C3C6928EC3C2C0066348F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2C3C6828EC3C2C0066348F /* SceneDelegate.swift */; };
 		2E2C3C6B28EC3C2C0066348F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2C3C6A28EC3C2C0066348F /* ViewController.swift */; };
-		2E2C3C6E28EC3C2C0066348F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E2C3C6C28EC3C2C0066348F /* Main.storyboard */; };
 		2E2C3C7028EC3C2F0066348F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E2C3C6F28EC3C2F0066348F /* Assets.xcassets */; };
 		2E2C3C7328EC3C2F0066348F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E2C3C7128EC3C2F0066348F /* LaunchScreen.storyboard */; };
+		2E2C3C7F28EC42D00066348F /* AVPlayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2C3C7E28EC42D00066348F /* AVPlayer+Extensions.swift */; };
+		2E2C3C8428EC462E0066348F /* TrimmingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2C3C8328EC462E0066348F /* TrimmingView.swift */; };
+		2E2C3C8728EC47670066348F /* VideoPreviewScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2C3C8628EC47670066348F /* VideoPreviewScrollView.swift */; };
+		2E9F07C828EC745100DFAD1D /* Pexels Videos 1722591.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2E9F07C728EC745100DFAD1D /* Pexels Videos 1722591.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2E2C3C6328EC3C2C0066348F /* TrimVid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrimVid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E2C3C6628EC3C2C0066348F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2E2C3C6828EC3C2C0066348F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2E2C3C6A28EC3C2C0066348F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		2E2C3C6D28EC3C2C0066348F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2E2C3C6F28EC3C2F0066348F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E2C3C7228EC3C2F0066348F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E2C3C7428EC3C2F0066348F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2E2C3C7E28EC42D00066348F /* AVPlayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Extensions.swift"; sourceTree = "<group>"; };
+		2E2C3C8328EC462E0066348F /* TrimmingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrimmingView.swift; sourceTree = "<group>"; };
+		2E2C3C8628EC47670066348F /* VideoPreviewScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreviewScrollView.swift; sourceTree = "<group>"; };
+		2E9F07C728EC745100DFAD1D /* Pexels Videos 1722591.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pexels Videos 1722591.mp4"; path = "../../../../Downloads/Pexels Videos 1722591.mp4"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,10 +60,12 @@
 		2E2C3C6528EC3C2C0066348F /* TrimVid */ = {
 			isa = PBXGroup;
 			children = (
+				2E9F07C728EC745100DFAD1D /* Pexels Videos 1722591.mp4 */,
+				2E2C3C8628EC47670066348F /* VideoPreviewScrollView.swift */,
+				2E2C3C8328EC462E0066348F /* TrimmingView.swift */,
 				2E2C3C6628EC3C2C0066348F /* AppDelegate.swift */,
-				2E2C3C6828EC3C2C0066348F /* SceneDelegate.swift */,
 				2E2C3C6A28EC3C2C0066348F /* ViewController.swift */,
-				2E2C3C6C28EC3C2C0066348F /* Main.storyboard */,
+				2E2C3C7E28EC42D00066348F /* AVPlayer+Extensions.swift */,
 				2E2C3C6F28EC3C2F0066348F /* Assets.xcassets */,
 				2E2C3C7128EC3C2F0066348F /* LaunchScreen.storyboard */,
 				2E2C3C7428EC3C2F0066348F /* Info.plist */,
@@ -126,8 +132,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E2C3C7328EC3C2F0066348F /* LaunchScreen.storyboard in Resources */,
+				2E9F07C828EC745100DFAD1D /* Pexels Videos 1722591.mp4 in Resources */,
 				2E2C3C7028EC3C2F0066348F /* Assets.xcassets in Resources */,
-				2E2C3C6E28EC3C2C0066348F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +144,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E2C3C7F28EC42D00066348F /* AVPlayer+Extensions.swift in Sources */,
 				2E2C3C6B28EC3C2C0066348F /* ViewController.swift in Sources */,
+				2E2C3C8728EC47670066348F /* VideoPreviewScrollView.swift in Sources */,
 				2E2C3C6728EC3C2C0066348F /* AppDelegate.swift in Sources */,
-				2E2C3C6928EC3C2C0066348F /* SceneDelegate.swift in Sources */,
+				2E2C3C8428EC462E0066348F /* TrimmingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		2E2C3C6C28EC3C2C0066348F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2E2C3C6D28EC3C2C0066348F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		2E2C3C7128EC3C2F0066348F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,7 +292,6 @@
 				INFOPLIST_FILE = TrimVid/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -320,7 +319,6 @@
 				INFOPLIST_FILE = TrimVid/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
