@@ -330,7 +330,7 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
     return timeRatio * durationWidth
   }
   
-  /// Move the position bar to the given time.
+  /// Move the playhead to the given time.
   public func seek(toTime time: CMTime) {
     if let newPosition = getPosition(from: time) {
       let offsetPosition = newPosition - videoScrollView.contentOffset.x - leftHandleView.frame.origin.x
