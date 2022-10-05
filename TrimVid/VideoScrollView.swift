@@ -8,13 +8,19 @@
 import AVFoundation
 import UIKit
 
-public class VideoScrollView: UIScrollView {
+/// Thumbnail generation logic can reside in this class
+public final class VideoScrollView: UIScrollView {
+  
+  // MARK: - Properties
   
   private var widthConstraint: NSLayoutConstraint?
-  
-  public let contentView = UIView()
   public var maxDuration: Double = 15
   
+  // MARK: - Subviews
+  
+  public let contentView = UIView()
+  
+  // MARK: - init  
   override init(frame: CGRect) {
     super.init(frame: frame)
     backgroundColor = .clear
@@ -25,35 +31,31 @@ public class VideoScrollView: UIScrollView {
     setupSubviews()
   }
   
-  required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-  }
-  
-  private func setupSubviews() {
-    contentView.backgroundColor = .clear
-    contentView.translatesAutoresizingMaskIntoConstraints = false
-    contentView.tag = -1
-    addSubview(contentView)
-    
-    contentView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-    contentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-    contentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-    widthConstraint = contentView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1.0)
-    widthConstraint?.isActive = true
-  }
-  
   public override func layoutSubviews() {
     super.layoutSubviews()
     contentSize = contentView.bounds.size
   }
   
-  private func setContentSize(for asset: AVAsset) -> CGSize {
-    
-    let contentWidthFactor = CGFloat(max(1, asset.duration.seconds / maxDuration))
-    widthConstraint?.isActive = false
-    widthConstraint = contentView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: contentWidthFactor)
-    widthConstraint?.isActive = true
-    layoutIfNeeded()
-    return contentView.bounds.size
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
   }
+  
+  // MARK: - Methods
+  
+  private func setupSubviews() {
+    contentView.backgroundColor = .clear
+    contentView.translatesAutoresizingMaskIntoConstraints = false
+    contentView.tag = 100
+    addSubview(contentView)
+    
+    NSLayoutConstraint.activate([
+      contentView.leftAnchor.constraint(equalTo: leftAnchor),
+      contentView.topAnchor.constraint(equalTo: topAnchor),
+      contentView.bottomAnchor.constraint(equalTo: bottomAnchor)    
+    ])
+    
+    widthConstraint = contentView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1.0)
+    widthConstraint?.isActive = true
+  }
+  
 }
