@@ -20,5 +20,5 @@
     - Exported
 - Reduce Auto Layout boilerplate via one of two options:
     - Write an extension on UIView or a helper class
-    - SnapKit
+    - [SnapKit](https://github.com/SnapKit/SnapKit)
 - Add video timeline thumbnails
