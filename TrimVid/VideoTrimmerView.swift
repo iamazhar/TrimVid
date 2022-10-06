@@ -261,10 +261,8 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
       case .began:
         if view == leftHandleView, let leftTrimConstraint = leftTrimConstraint {
           currentLeftHandleConstraintConstant = leftTrimConstraint.constant
-        } else {
-          if let rightTrimConstraint = rightTrimConstraint {
-            currentRightHandleConstraintConstant = rightTrimConstraint.constant            
-          }
+        } else if let rightTrimConstraint = rightTrimConstraint {
+          currentRightHandleConstraintConstant = rightTrimConstraint.constant            
         }
         updateSelectedTime(stoppedMoving: false)
         
@@ -293,13 +291,13 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
   }
   
   private func updateLeftConstraint(with translation: CGPoint) {
-    let maxConstraint = max(rightHandleView.frame.origin.x - handleWidth - minimumDistanceBetweenHandles, 0)
+    let maxConstraint = max(rightHandleView.frame.origin.x - handleWidth - minDistanceBetweenHandles, 0)
     let newConstraint = min(max(0, currentLeftHandleConstraintConstant + translation.x), maxConstraint)
     leftTrimConstraint?.constant = newConstraint
   }
   
   private func updateRightConstraint(with translation: CGPoint) {
-    let maxConstraint = min(2 * handleWidth - frame.width + leftHandleView.frame.origin.x + minimumDistanceBetweenHandles, 0)
+    let maxConstraint = min(2 * handleWidth - frame.width + leftHandleView.frame.origin.x + minDistanceBetweenHandles, 0)
     let newConstraint = max(min(0, currentRightHandleConstraintConstant + translation.x), maxConstraint)
     rightTrimConstraint?.constant = newConstraint
   }
@@ -378,7 +376,7 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
   
   /// Calculated by dividing width of the scroll view by video duration and using a minimum duration as a multiplier to
   /// derive minimum handle distance
-  private var minimumDistanceBetweenHandles: CGFloat {
+  private var minDistanceBetweenHandles: CGFloat {
     guard let asset = asset else { return 0 }
     return CGFloat(minDuration) * videoScrollView.contentView.frame.width / CGFloat(asset.duration.seconds)
   }
