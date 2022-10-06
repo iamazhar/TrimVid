@@ -16,6 +16,9 @@ public protocol VideoTrimmerViewDelegate: AnyObject {
 /// Use this class to setup the custom trimming control
 public class VideoTrimmerView: UIView, UIScrollViewDelegate {
   
+  // MARK: - Haptics
+  private let generator = UISelectionFeedbackGenerator()
+  
   // MARK: - Properties
   
   public var asset: AVAsset?
@@ -91,6 +94,8 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
     backgroundColor = UIColor.clear
     layer.zPosition = 1
     translatesAutoresizingMaskIntoConstraints = false
+    
+    generator.prepare()
     
     setupVideoAssetPreview()
     setupTrimView()
@@ -358,6 +363,7 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
     guard let playerTime = playheadTime else { return }
     
     if stoppedMoving {
+      generator.selectionChanged()
       delegate?.playheadStoppedMoving(playerTime)
     } else {
       delegate?.didChangePlayhead(playerTime)
