@@ -79,10 +79,10 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
   
   // MARK: - Constraints
   
-  private var currentLeftHandleConstraintConstant: CGFloat = 0
-  private var currentRightHandleConstraintConstant: CGFloat = 0
-  private var leftTrimConstraint: NSLayoutConstraint?
-  private var rightTrimConstraint: NSLayoutConstraint?
+  private var currentTrimViewLeftConstraintConstant: CGFloat = 0
+  private var currentTrimViewRightConstraintConstant: CGFloat = 0
+  private var trimViewLeftConstraint: NSLayoutConstraint?
+  private var trimViewRightConstraint: NSLayoutConstraint?
   private var playheadPositionConstraint: NSLayoutConstraint?
   
   // MARK: - init
@@ -97,9 +97,9 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
     
     generator.prepare()
     
-    setupVideoAssetPreview()
+    setupVideoScrollView()
     setupTrimView()
-    setupHandleView()
+    setupHandleViews()
     setupMaskView()
     setupPlayhead()
     setupPanGestures()
@@ -111,7 +111,7 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
   
   // MARK: - Methods
   
-  private func setupVideoAssetPreview() {
+  private func setupVideoScrollView() {
     videoScrollView.translatesAutoresizingMaskIntoConstraints = false
     videoScrollView.delegate = self
     addSubview(videoScrollView)
@@ -137,13 +137,13 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
       trimView.bottomAnchor.constraint(equalTo: bottomAnchor)    
     ])
     
-    leftTrimConstraint = trimView.leftAnchor.constraint(equalTo: leftAnchor)
-    rightTrimConstraint = trimView.rightAnchor.constraint(equalTo: rightAnchor)
-    leftTrimConstraint?.isActive = true
-    rightTrimConstraint?.isActive = true
+    trimViewLeftConstraint = trimView.leftAnchor.constraint(equalTo: leftAnchor)
+    trimViewRightConstraint = trimView.rightAnchor.constraint(equalTo: rightAnchor)
+    trimViewLeftConstraint?.isActive = true
+    trimViewRightConstraint?.isActive = true
   }
   
-  private func setupHandleView() {
+  private func setupHandleViews() {
     leftHandleView.isUserInteractionEnabled = true
     leftHandleView.layer.cornerRadius = 6.0
     leftHandleView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
@@ -259,21 +259,20 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
     switch gestureRecognizer.state {
         
       case .began:
-        if view == leftHandleView, let leftTrimConstraint = leftTrimConstraint {
-          currentLeftHandleConstraintConstant = leftTrimConstraint.constant
-        } else if let rightTrimConstraint = rightTrimConstraint {
-          currentRightHandleConstraintConstant = rightTrimConstraint.constant            
+        if view == leftHandleView, let trimViewLeftConstraint = trimViewLeftConstraint {
+          currentTrimViewLeftConstraintConstant = trimViewLeftConstraint.constant
+        } else if let trimViewRightConstraint = trimViewRightConstraint {
+          currentTrimViewRightConstraintConstant = trimViewRightConstraint.constant            
         }
         updateSelectedTime(stoppedMoving: false)
         
       case .changed:
         let translation = gestureRecognizer.translation(in: superView)
         if view == leftHandleView {
-          updateLeftConstraint(with: translation)
+          updateLeftTrimViewConstraint(with: translation)
         } else {
-          updateRightConstraint(with: translation)
+          updateRightTrimViewConstraint(with: translation)
         }
-        layoutIfNeeded()
         
         if let startTime = startTime, view == leftHandleView {
           seek(toTime: startTime)
@@ -290,16 +289,18 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
     }
   }
   
-  private func updateLeftConstraint(with translation: CGPoint) {
+  private func updateLeftTrimViewConstraint(with translation: CGPoint) {
     let maxConstraint = max(rightHandleView.frame.origin.x - handleWidth - minDistanceBetweenHandles, 0)
-    let newConstraint = min(max(0, currentLeftHandleConstraintConstant + translation.x), maxConstraint)
-    leftTrimConstraint?.constant = newConstraint
+    let newConstraint = min(max(0, currentTrimViewLeftConstraintConstant + translation.x), maxConstraint)
+    trimViewLeftConstraint?.constant = newConstraint
+    layoutIfNeeded()
   }
   
-  private func updateRightConstraint(with translation: CGPoint) {
+  private func updateRightTrimViewConstraint(with translation: CGPoint) {
     let maxConstraint = min(2 * handleWidth - frame.width + leftHandleView.frame.origin.x + minDistanceBetweenHandles, 0)
-    let newConstraint = max(min(0, currentRightHandleConstraintConstant + translation.x), maxConstraint)
-    rightTrimConstraint?.constant = newConstraint
+    let newConstraint = max(min(0, currentTrimViewRightConstraintConstant + translation.x), maxConstraint)
+    trimViewRightConstraint?.constant = newConstraint
+    layoutIfNeeded()
   }
   
   // MARK: - Video time and position methods and properties
@@ -345,15 +346,13 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
     }
   }
   
-  /// Corresponds to the playhead's positive relative to the left handle
   public var startTime: CMTime? {
-    let startPosition = leftHandleView.frame.origin.x + videoScrollView.contentOffset.x
+    let startPosition = leftHandleView.frame.origin.x
     return getTime(from: startPosition)
   }
   
-  /// Corresponds to the playhead's positive relative to the right handle
   public var endTime: CMTime? {
-    let endPosition = rightHandleView.frame.origin.x + videoScrollView.contentOffset.x - handleWidth
+    let endPosition = rightHandleView.frame.origin.x - handleWidth
     return getTime(from: endPosition)
   }
   
@@ -368,14 +367,11 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
     }
   }
   
-  /// Calculated by adding the scroll view's content to playhead's origin and subtracting the right handle's width
   private var playheadTime: CMTime? {
-    let playheadPosition = playheadView.frame.origin.x + videoScrollView.contentOffset.x - handleWidth
+    let playheadPosition = playheadView.frame.origin.x - handleWidth
     return getTime(from: playheadPosition)
   }
   
-  /// Calculated by dividing width of the scroll view by video duration and using a minimum duration as a multiplier to
-  /// derive minimum handle distance
   private var minDistanceBetweenHandles: CGFloat {
     guard let asset = asset else { return 0 }
     return CGFloat(minDuration) * videoScrollView.contentView.frame.width / CGFloat(asset.duration.seconds)

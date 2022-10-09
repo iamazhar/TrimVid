@@ -111,7 +111,7 @@ public final class ViewController: UIViewController {
     view.backgroundColor = .black
     
     setupSubviews()
-    loadAsset()
+    addVideoPlayer()
   }
   
   // MARK: - Methods
@@ -160,14 +160,11 @@ public final class ViewController: UIViewController {
     ])
   }
   
-  private func loadAsset() {
+  private func addVideoPlayer() {
     guard let path = Bundle.main.url(forResource: "Pexels Videos 1722591", withExtension: "mp4") else { return }
     let asset = AVAsset(url: path)
     trimmerView.asset = asset
-    addVideoPlayer(withAsset: asset)
-  }
-  
-  private func addVideoPlayer(withAsset asset: AVAsset) {
+    
     let playerItem = AVPlayerItem(asset: asset)
     player = AVPlayer(playerItem: playerItem)
     
@@ -240,7 +237,9 @@ extension ViewController: VideoTrimmerViewDelegate {
     stopPlaybackTimer()
     player?.pause()
     player?.seek(to: playerTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
-    let duration = (trimmerView.endTime! - trimmerView.startTime!).seconds
+    
+    guard let startTime = trimmerView.startTime, let endTime = trimmerView.endTime else { return }
+    let duration = (endTime - startTime).seconds
     print(duration)
     
     if let startTime = trimmerView.startTime {
