@@ -373,7 +373,7 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
   
   private var minDistanceBetweenHandles: CGFloat {
     guard let asset = asset else { return 0 }
-    return CGFloat(minDuration) * videoScrollView.contentView.frame.width / CGFloat(asset.duration.seconds)
+    return CGFloat(minDuration) * frame.width / CGFloat(asset.duration.seconds)
   }
   
   // MARK: - Scroll View Delegate
