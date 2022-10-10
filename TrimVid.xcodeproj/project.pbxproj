@@ -15,7 +15,6 @@
 		2E4D036C28ED77D50045DF02 /* ExportHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4D036B28ED77D50045DF02 /* ExportHelper.swift */; };
 		2E9F07C828EC745100DFAD1D /* Pexels Videos 1722591.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2E9F07C728EC745100DFAD1D /* Pexels Videos 1722591.mp4 */; };
 		2E9F07CB28EC765100DFAD1D /* VideoTrimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9F07CA28EC765100DFAD1D /* VideoTrimmerView.swift */; };
-		2E9F07CF28EC767F00DFAD1D /* VideoScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9F07CE28EC767F00DFAD1D /* VideoScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +28,6 @@
 		2E4D036B28ED77D50045DF02 /* ExportHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportHelper.swift; sourceTree = "<group>"; };
 		2E9F07C728EC745100DFAD1D /* Pexels Videos 1722591.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pexels Videos 1722591.mp4"; path = "../../../../Downloads/Pexels Videos 1722591.mp4"; sourceTree = "<group>"; };
 		2E9F07CA28EC765100DFAD1D /* VideoTrimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTrimmerView.swift; sourceTree = "<group>"; };
-		2E9F07CE28EC767F00DFAD1D /* VideoScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +62,6 @@
 			children = (
 				2E9F07C728EC745100DFAD1D /* Pexels Videos 1722591.mp4 */,
 				2E9F07CA28EC765100DFAD1D /* VideoTrimmerView.swift */,
-				2E9F07CE28EC767F00DFAD1D /* VideoScrollView.swift */,
 				2E2C3C6628EC3C2C0066348F /* AppDelegate.swift */,
 				2E2C3C6A28EC3C2C0066348F /* ViewController.swift */,
 				2E4D036B28ED77D50045DF02 /* ExportHelper.swift */,
@@ -150,7 +147,6 @@
 				2E2C3C7F28EC42D00066348F /* AVPlayer+Extensions.swift in Sources */,
 				2E2C3C6B28EC3C2C0066348F /* ViewController.swift in Sources */,
 				2E2C3C6728EC3C2C0066348F /* AppDelegate.swift in Sources */,
-				2E9F07CF28EC767F00DFAD1D /* VideoScrollView.swift in Sources */,
 				2E9F07CB28EC765100DFAD1D /* VideoTrimmerView.swift in Sources */,
 				2E4D036C28ED77D50045DF02 /* ExportHelper.swift in Sources */,
 			);

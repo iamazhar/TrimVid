@@ -29,17 +29,9 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
   
   public var minDuration: Double = 3
   
-  /// Use this property as source of truth for this view and VideoScrollView.
-  /// Use this to generate thumbnails in VideoScrollView
-  public var maxDuration: Double = 15 {
-    didSet {
-      videoScrollView.maxDuration = maxDuration
-    }
-  }
+  public var maxDuration: Double = 15
   
   // MARK: - Subviews
-  
-  private let videoScrollView = VideoScrollView()
   
   private let trimView: UIView = {
     let view = UIView()
@@ -97,7 +89,6 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
     
     generator.prepare()
     
-    setupVideoScrollView()
     setupTrimView()
     setupHandleViews()
     setupMaskView()
@@ -110,20 +101,6 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
   }
   
   // MARK: - Methods
-  
-  private func setupVideoScrollView() {
-    videoScrollView.translatesAutoresizingMaskIntoConstraints = false
-    videoScrollView.delegate = self
-    addSubview(videoScrollView)
-    
-    NSLayoutConstraint.activate([
-      videoScrollView.leftAnchor.constraint(equalTo: leftAnchor),
-      videoScrollView.rightAnchor.constraint(equalTo: rightAnchor),
-      videoScrollView.topAnchor.constraint(equalTo: topAnchor),
-      videoScrollView.bottomAnchor.constraint(equalTo: bottomAnchor)    
-    ])
-    
-  }
   
   private func setupTrimView() {
     trimView.layer.borderWidth = 2.0
@@ -308,7 +285,7 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
   /// Le Secret sauce
   
   private var durationWidth: CGFloat {
-    return videoScrollView.contentSize.width
+    return frame.width
   }
   
   private func getTime(from position: CGFloat) -> CMTime? {
@@ -374,20 +351,5 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
   private var minDistanceBetweenHandles: CGFloat {
     guard let asset = asset else { return 0 }
     return CGFloat(minDuration) * frame.width / CGFloat(asset.duration.seconds)
-  }
-  
-  // MARK: - Scroll View Delegate
-  
-  public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    updateSelectedTime(stoppedMoving: true)
-  }
-  
-  public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-    if !decelerate {
-      updateSelectedTime(stoppedMoving: true)
-    }
-  }
-  public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    updateSelectedTime(stoppedMoving: false)
   }
 }
