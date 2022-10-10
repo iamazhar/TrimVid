@@ -315,7 +315,7 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
     guard let asset = asset else {
       return nil
     }
-    let ratio = max(min(1, position / durationWidth), 0)
+    let ratio = position / durationWidth
     let positionTimeValue = Double(ratio) * Double(asset.duration.value)
     return CMTime(value: Int64(positionTimeValue), timescale: asset.duration.timescale)
   }
