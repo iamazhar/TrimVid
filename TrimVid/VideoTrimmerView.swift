@@ -337,7 +337,7 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
   /// Move the playhead to the given time.
   public func seek(toTime time: CMTime) {
     if let newPosition = getPosition(from: time) {
-      let offsetPosition = newPosition - videoScrollView.contentOffset.x - leftHandleView.frame.origin.x
+      let offsetPosition = newPosition - leftHandleView.frame.origin.x
       let maxPosition = rightHandleView.frame.origin.x - (leftHandleView.frame.origin.x + handleWidth)
       - playheadView.frame.width
       let normalizedPosition = min(max(0, offsetPosition), maxPosition)
