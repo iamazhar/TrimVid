@@ -317,7 +317,7 @@ public class VideoTrimmerView: UIView, UIScrollViewDelegate {
     }
     let ratio = position / durationWidth
     let positionTimeValue = Double(ratio) * Double(asset.duration.value)
-    return CMTime(value: Int64(positionTimeValue), timescale: asset.duration.timescale)
+    return CMTime(value: CMTimeValue(positionTimeValue), timescale: asset.duration.timescale)
   }
   
   private func getPosition(from time: CMTime) -> CGFloat? {
