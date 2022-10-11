@@ -64,10 +64,10 @@ public final class ExportHelper {
         exportSession.supportedFileTypes.contains(.mp4) else {
         return
       }
-      
+    
       exportSession.outputURL = tempFileURL
       exportSession.outputFileType = .mp4
-      let startTime = CMTimeMake(value: 0, timescale: 1)
+      let startTime = CMTimeMake(value: startTime.value, timescale: startTime.timescale)
       let timeRange = CMTimeRangeMake(start: startTime, duration: CMTimeSubtract(endTime, startTime))
       exportSession.timeRange = timeRange
       
